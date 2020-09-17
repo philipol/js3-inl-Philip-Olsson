@@ -13,4 +13,15 @@ export default class {
     })
   }
 
+  async activateUser(uid, token) {
+    const url = `${AUTH_URL}users/activate/`
+    const payload = {
+      uid, token
+    }
+    return fetch(url, {
+      method: "POST",
+      headers: this.getPublicHeaders(),
+      body: JSON.stringify(payload)
+    })
+  }
 }
