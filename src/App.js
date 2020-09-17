@@ -3,6 +3,7 @@ import './App.css';
 
 function App() {
   const history = useHistory()
+  // Use URL Search Params to parse the query parameters from the url
   const params = new URLSearchParams(history.location.search);
   const uid = params.get('uid')
   const token = params.get('token')
