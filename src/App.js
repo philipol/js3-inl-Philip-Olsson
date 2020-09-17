@@ -1,18 +1,23 @@
+import React, {useState} from 'react';
 import {Switch, Route, useHistory} from 'react-router-dom'
 import './App.css';
+import UserKit from './data/UserKit';
 
 function App() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [customerList, setCustomerList] = useState([])
   const userKit = new UserKit()
   const history = useHistory()
   // Use URL Search Params to parse the query parameters from the url
   const params = new URLSearchParams(history.location.search);
   const uid = params.get('uid')
   const token = params.get('token')
+
   function handleCreateUser() {
     userKit.register("Hassan", "Mian", "mian+test+4@willandskill.se", "hej123svejs43321", "Mitt företag AB", "0")
   }
+
   function handleActivateAccount() {
     userKit.activateUser(
       uid, token
@@ -29,8 +34,38 @@ function App() {
       history.push('/home')
     })
   }
+
+  function fetchClients() {
+    userKit.getCustomerList()
+    .then(res => res.json())
+    .then(data => {
+      setCustomerList(data.results)
+    })
+  }
+
+  function handleCreateCustomer() {
+    const payload = {
+      name: "My first client"
+    }
+    userKit.createCustomer(payload)
+    .then(res => res.json())
+    .then(data => {
+      console.log(data)
+      fetchClients()
+    })
+  }
+
   return (
+    <div>
       <Switch>
+        <Route path="/home">
+          <h1>Welcome to Business Application</h1>
+          <button onClick={fetchClients}>Get my Clients</button>
+          {customerList.map(customerItem => {
+            return <p>{customerItem.name}</p>
+          })}
+          <button onClick={handleCreateCustomer}>Create test customer</button>
+        </Route>
         <Route path="/login">
           <h1>Activate account</h1>
           {/* Only show that account is beeing activated if uid and token exists in URL */}
@@ -62,3 +97,10 @@ function App() {
 }
 
 export default App;
+
+
+
+/*
+email: nackademin@willandskill.se
+password: js-fend-19
+*/
