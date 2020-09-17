@@ -2,6 +2,7 @@ import {Switch, Route, useHistory} from 'react-router-dom'
 import './App.css';
 
 function App() {
+  const userKit = new UserKit()
   const history = useHistory()
   // Use URL Search Params to parse the query parameters from the url
   const params = new URLSearchParams(history.location.search);
