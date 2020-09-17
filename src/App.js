@@ -21,12 +21,14 @@ function App() {
       <Switch>
         <Route path="/login">
           <h1>Activate account</h1>
+          {/* Only show that account is beeing activated if uid and token exists in URL */}
           { uid && token && (
             <div>
               Your account is being activated
               {handleActivateAccount()}
             </div>
           )}
+          {/* If uid and token doesn't exist in url, render login form */}
           { !uid && !token && (
             <div>
               <p>
