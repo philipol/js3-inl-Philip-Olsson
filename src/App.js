@@ -18,6 +18,15 @@ function App() {
       history.push('/login')
     )
   }
+
+  function handleLogin() {
+    userKit.login(email, password)
+    .then(res => res.json())
+    .then(data => {
+      userKit.setToken(data.token)
+      history.push('/home')
+    })
+  }
   return (
       <Switch>
         <Route path="/login">
