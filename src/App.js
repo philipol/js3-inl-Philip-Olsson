@@ -2,6 +2,8 @@ import {Switch, Route, useHistory} from 'react-router-dom'
 import './App.css';
 
 function App() {
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
   const userKit = new UserKit()
   const history = useHistory()
   // Use URL Search Params to parse the query parameters from the url
