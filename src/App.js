@@ -1,22 +1,23 @@
-import React, {useState} from 'react';
-import {Switch, Route, useHistory} from 'react-router-dom'
+import React, {useState, useEffect} from 'react';
+import {Switch, Route, useHistory, Link} from 'react-router-dom'
 import './App.css';
 import UserKit from './data/UserKit';
+import Home from './pages/Home';
+import Customer from './components/Customer'
+import CreateUser from './components/CreateUser';
 
 function App() {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [customerList, setCustomerList] = useState([])
+
   const userKit = new UserKit()
   const history = useHistory()
+  
   // Use URL Search Params to parse the query parameters from the url
   const params = new URLSearchParams(history.location.search);
   const uid = params.get('uid')
-  const token = params.get('token')
+  const token = params.get('token')  
 
-  function handleCreateUser() {
-    userKit.register("Hassan", "Mian", "mian+test+4@willandskill.se", "hej123svejs43321", "Mitt företag AB", "0")
-  }
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
 
   function handleActivateAccount() {
     userKit.activateUser(
@@ -35,36 +36,20 @@ function App() {
     })
   }
 
-  function fetchClients() {
-    userKit.getCustomerList()
-    .then(res => res.json())
-    .then(data => {
-      setCustomerList(data.results)
-    })
-  }
+ 
 
-  function handleCreateCustomer() {
-    const payload = {
-      name: "My first client"
-    }
-    userKit.createCustomer(payload)
-    .then(res => res.json())
-    .then(data => {
-      console.log(data)
-      fetchClients()
-    })
-  }
-
+ 
+/*{customer.email}
+{customer.website}
+{customer.reference}
+{customer.organisationNr}
+{customer.vatNr}
+{customer.paymentTerm}*/
   return (
     <div>
       <Switch>
         <Route path="/home">
-          <h1>Welcome to Business Application</h1>
-          <button onClick={fetchClients}>Get my Clients</button>
-          {customerList.map(customerItem => {
-            return <p>{customerItem.name}</p>
-          })}
-          <button onClick={handleCreateCustomer}>Create test customer</button>
+          <Home/>
         </Route>
         <Route path="/login">
           <h1>Activate account</h1>
@@ -87,9 +72,9 @@ function App() {
             </div>
           )}
         </Route>
-        <Route path="/">
-          <h1>Register</h1>
-          <button onClick={handleCreateUser}>Create User</button>
+        <Route  path="/customer/:id" component={Customer} />
+        <Route exact path="/">
+            <CreateUser/>
         </Route>
       </Switch>
     </div>

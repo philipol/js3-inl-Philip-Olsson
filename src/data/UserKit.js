@@ -2,7 +2,7 @@ const ROOT_URL = 'https://frebi.willandskill.eu/'
 const API_URL = `${ROOT_URL}api/v1/`
 const AUTH_URL = `${ROOT_URL}auth/`
 const LOGIN_URL = `${ROOT_URL}api-token-auth/`
-
+const DELETE_CUSTOMET_URL = `${API_URL}customers/`
 export default class {
   async register(firstName, lastName, email, password, organisationName, organisationKind) {
     const url = `${AUTH_URL}users/`
@@ -46,6 +46,13 @@ export default class {
       headers: this.getPrivateHeaders(),
     })
   }
+  
+  async getMe() {
+    const url = `${API_URL}me`
+    return fetch(url, {
+      headers: this.getPrivateHeaders(),
+    })
+  }
 
   async createCustomer(payload) {
     const url = `${API_URL}customers`
@@ -53,6 +60,24 @@ export default class {
       method: "POST",
       headers: this.getPrivateHeaders(),
       body: JSON.stringify(payload)
+    })
+  }
+  
+  async deleteCustomer(id) {
+    const url = `${DELETE_CUSTOMET_URL}${id}/`
+    return fetch(url, {
+      method: "DELETE",
+      headers: this.getPrivateHeaders(),
+    })
+    .then (
+        console.log('kalle2')
+    )
+  }
+
+  async getCustomer(id) {
+    const url = `${API_URL}customers/${id}/`
+    return fetch(url, {
+      headers: this.getPrivateHeaders(),
     })
   }
 
