@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import UserKit from '../data/UserKit';
 import {  useHistory, useParams } from 'react-router-dom';
+import styled from 'styled-components';
 
 
 export default function Customer(props){
@@ -19,6 +20,7 @@ export default function Customer(props){
         userKit.getCustomer(id)
         .then(res => res.json())
         .then(data => {
+            console.log(data)
             setCustomerDetail(data)
         })
     }
@@ -32,30 +34,37 @@ export default function Customer(props){
     
     console.log(customerDetail)
     return (
-        <div>
+        <DetailContainer>
             {customerDetail &&    
                 <span> 
 
-                    Id: {customerDetail.id}
-                    Name: {customerDetail.name}
+                    <CustomerDetails>Id: {customerDetail.id}</CustomerDetails>
+                    <CustomerDetails>Name: {customerDetail.name}</CustomerDetails>
+                    <CustomerDetails>Email: {customerDetail.email}</CustomerDetails>
+                    <CustomerDetails>PhoneNumber: {customerDetail.phoneNumber}</CustomerDetails>
+                    <CustomerDetails>Website: {customerDetail.website}</CustomerDetails>
+                    <CustomerDetails>Reference: {customerDetail.reference}</CustomerDetails>
+                    <CustomerDetails>OrganisationNr: {customerDetail.organisationNr}</CustomerDetails>
+                    <CustomerDetails>VatNr: {customerDetail.vatNr}</CustomerDetails>
+                    <CustomerDetails>PaymentTerm: {customerDetail.paymentTerm}</CustomerDetails>
     
                 </span>
             }
 
             <button onClick={()=>delCustomer(id)}>Delete</button>
-        </div>
+        </DetailContainer>
     )
   }
 
+const DetailContainer = styled.div`
+width: 60%;
+margin-left: 20%;
+padding:3%;
+margin-top: 5%;
+border:1px solid black;
+`
 
-
-
-
-
-/*Email: {props.children[1]}, 
-Phonenumber: {props.children[2]}, 
-Website: {props.children[3]}, 
-Reference: {props.children[4]}, 
-Organisation number: {props.children[5]}, 
-VAT number: {props.children[6]}, 
-Payment term: {props.children[7]},*/
+const CustomerDetails = styled.p`
+border: 1px solid black;
+padding: 5%;
+`
